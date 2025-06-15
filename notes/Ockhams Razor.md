@@ -1,0 +1,1 @@
+Occam's Razor is a problem-solving principle that suggests the simplest explanation is usually the best explanation, or the one with the fewest assumptions. It's often attributed to the 14th-century philosopher William of Ockham.

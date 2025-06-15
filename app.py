@@ -138,6 +138,8 @@ if mode == "Chat with Notes":
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
+    
+
     if "history" not in st.session_state:
         st.session_state["history"] = []
 
@@ -152,6 +154,23 @@ if mode == "Chat with Notes":
         for q, a in reversed(st.session_state["history"]):
             st.markdown(f"<div class='message user-msg'><b>You:</b> {q}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='message ai-msg'><b>RecallGPT:</b> {a}</div>", unsafe_allow_html=True)
+    
+        # ------------------- Explain a Note -------------------
+    st.divider()
+    st.markdown("### 📘 Explain a Note")
+
+    note_files = [f for f in os.listdir("notes") if f.endswith(".md")]
+    if note_files:
+        selected_note = st.selectbox("Choose a note to explain:", note_files)
+        if st.button("🧠 Explain this note"):
+            explain_prompt = f"Please explain the content of my note titled '{selected_note}' in simple terms."
+            with st.spinner("Reading and explaining your note..."):
+                explanation = qa_chain.run(explain_prompt)
+            st.markdown(f"**Explanation of `{selected_note}`:**")
+            st.markdown(f"<div class='message ai-msg'>{explanation}</div>", unsafe_allow_html=True)
+    else:
+        st.info("No `.md` notes found in the `notes` directory.")
+
 
 # ------------------- Tasks -------------------
 elif mode == "Tasks":
